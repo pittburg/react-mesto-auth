@@ -16,7 +16,6 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import auth from "../../utils/auth";
 
-
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -28,12 +27,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [authorizationEmail, setAuthorizationEmail] = React.useState('');
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
-
   const history = useHistory();
 
-
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    Promise.all([api.getUserInfo(), api.getInitialCards()]) //компонент Main защищен и запрос данных происходит только если пользователь авторизован
       .then(([user, initialCards]) => {
         setCurrentUser(user);
         setCards(initialCards);
@@ -42,6 +39,7 @@ function App() {
         console.log(`Что-то не так: ${err}`)
       })
   }, []);
+
 
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
@@ -79,7 +77,6 @@ function App() {
     };
   }, []);
 
-
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   };
@@ -96,7 +93,6 @@ function App() {
     setSelectedCard(card);
   };
 
-
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api
@@ -108,7 +104,6 @@ function App() {
       console.log(`Что-то не так: ${err}`)
     })
   }
-
 
   function handleCardDelete(cardId) {
     api
@@ -206,7 +201,6 @@ function App() {
     setAuthorizationEmail("");
     history.push("/sign-in");
   }
-
 
   return (
   <CurrentUserContext.Provider value={currentUser}>
