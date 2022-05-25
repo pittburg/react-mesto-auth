@@ -4,4 +4,8 @@
   box-sizing: border-box;
   max-width: 880px;
   display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  line-height: 22px;
+  color: white;
 }
