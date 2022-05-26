@@ -30,16 +30,17 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]) //компонент Main защищен и запрос данных происходит только если пользователь авторизован
-      .then(([user, initialCards]) => {
-        setCurrentUser(user);
-        setCards(initialCards);
-      })
-      .catch((err) => {
-        console.log(`Что-то не так: ${err}`)
-      })
-  }, []);
-
+    if (isLoggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([user, initialCards]) => {
+          setCurrentUser(user);
+          setCards(initialCards);
+        })
+        .catch((err) => {
+          console.log(`Что-то не так: ${err}`);
+        })
+    }
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
